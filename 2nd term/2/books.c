@@ -18,6 +18,7 @@ int n = 0;
 void convert(book *, char *);
 int cmp(const void *, const void *);
 void print(const book *);
+int lower_bound(book *);
 
 int main()
 {
@@ -65,4 +66,18 @@ void print(const book *b)
     printf("%-20s ", b->author);
     printf("%-30s ", b->press);
     printf("%-10s\n", b->date);
+}
+
+int lower_bound(book *b)
+{
+    int l = 0, r = n - 1, mid;
+    while (l < r)
+    {
+        mid = (l + r) / 2;
+        if (strcmp(index[mid]->name, b->name) < 0)
+            l = mid + 1;
+        else
+            r = mid;
+    }
+    return l;
 }
