@@ -21,7 +21,7 @@ void print(const book *);
 void fprint(FILE *, const book *);
 //在指标序号l,r之间寻找第一个>=book *b的指标
 int lower_bound(book *, int, int);
-//在int pre后面插入book *b
+//在int nxt前面插入book *b
 void insert(int, book *);
 //从int x位置开始找含有char *s的指标，没有返回-1
 int find(int, char *);
@@ -100,7 +100,7 @@ void convert(book *b, char *s)
 
 int cmp(const void *a, const void *b)
 {
-    return strcmp(((book *)a)->name, ((book *)b)->name);
+    return strcmp((*(book **)a)->name, (*(book **)b)->name);
 }
 
 void print(const book *b)
@@ -134,11 +134,11 @@ int lower_bound(book *b, int l, int r)
     return l;
 }
 
-void insert(int pre, book *b)
+void insert(int nxt, book *b)
 {
-    for (int i = n - 1; i > pre; --i)
+    for (int i = n - 1; i >= nxt; --i)
         indexL[i + 1] = indexL[i];
-    indexL[pre + 1] = b;
+    indexL[nxt - 1] = b;
     ++n;
 }
 
