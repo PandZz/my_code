@@ -34,14 +34,12 @@ int main()
     fw = fopen("ordered.txt", "w");
     if (fr == NULL || fw == NULL)
         return -1;
-    char tmpS[200];
-    while (fgets(tmpS, 200, fr) != NULL)
+    char tmpS[300];
+    while (fgets(tmpS, 300, fr) != NULL)
     {
         tmpS[strlen(tmpS) - 1] = '\0';
         indexL[n] = lib + n;
         convert(indexL[n], tmpS);
-        // fputs(tmpS, fw);
-        // fprint(fw, indexL[n]);
         ++n;
     }
     nLib = n;
@@ -49,27 +47,19 @@ int main()
     convert(&lib[nLib++], "zzzzzfuck z z z");
     indexL[n++] = &lib[nLib - 1];
     //手动在末位添加“最大”的图书，以便lower_bound的边界条件
-    // for (int i = 0; i < n; ++i)
-    //     fprint(stdout, indexL[i]);
     int op, x;
     book tmpB;
     while ((scanf("%d", &op) != EOF) && (op != 0))
     {
-        // printf("op=%d\n", op);
         getchar();
         gets(tmpS);
-        // puts(tmpS);
         switch (op)
         {
         case 1:
         {
             convert(&tmpB, tmpS);
             lib[nLib++] = tmpB;
-            // printf("lower_bound:%d\n", lower_bound(&tmpB, 0, n - 1));
             insert(lower_bound(&tmpB, 0, n - 1), &lib[nLib - 1]);
-            // printf("n=%d\n", n);
-            // for (int i = 0; i < n; ++i)
-            //     fprint(stdout, indexL[i]);
             break;
         }
         case 2:
@@ -89,16 +79,12 @@ int main()
             while (~x && x < n)
             {
                 x = find(x, tmpS);
-                // printf("x=%d\n", x);
-                // fprint(stdout, indexL[x]);
                 if (~x)
                     del(x);
             }
             break;
         }
         }
-        // for (int i = 0; i < n; ++i)
-        //     fprint(stdout, indexL[i]);
     }
     for (int i = 0; i < n - 1; ++i)
         fprint(fw, indexL[i]);
@@ -131,13 +117,12 @@ int cmp(const void *a, const void *b)
 
 void fprint(FILE *fp, const book *b)
 {
-    fprintf(fp, "%-50s ", b->name);
-    fprintf(fp, "%-20s ", b->author);
-    fprintf(fp, "%-30s ", b->press);
+    fprintf(fp, "%-50s", b->name);
+    fprintf(fp, "%-20s", b->author);
+    fprintf(fp, "%-30s", b->press);
     fprintf(fp, "%s\n", b->date);
 }
 
-//可能找不到，得改
 int lower_bound(book *b, int l, int r)
 {
     int mid;
