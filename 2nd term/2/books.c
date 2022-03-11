@@ -11,8 +11,8 @@ typedef struct books
 {
     char name[55], author[25], press[35], date[15];
 } book;
-book lib[600];
-book *indexL[600];
+book lib[1000];
+book *indexL[1000];
 int n = 0, nLib;
 
 void convert(book *, char *);
@@ -37,7 +37,8 @@ int main()
     char tmpS[300];
     while (fgets(tmpS, 300, fr) != NULL)
     {
-        tmpS[strlen(tmpS) - 1] = '\0';
+        if (tmpS[strlen(tmpS) - 1] == '\n')
+            tmpS[strlen(tmpS) - 1] = '\0';
         indexL[n] = lib + n;
         convert(indexL[n], tmpS);
         ++n;
@@ -120,7 +121,7 @@ void fprint(FILE *fp, const book *b)
     fprintf(fp, "%-50s", b->name);
     fprintf(fp, "%-20s", b->author);
     fprintf(fp, "%-30s", b->press);
-    fprintf(fp, "%s\n", b->date);
+    fprintf(fp, "%-10s\n", b->date);
 }
 
 int lower_bound(book *b, int l, int r)
