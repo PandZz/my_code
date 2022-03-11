@@ -17,7 +17,6 @@ int n = 0, nLib;
 
 void convert(book *, char *);
 int cmp(const void *, const void *);
-void print(const book *);
 void fprint(FILE *, const book *);
 //在指标序号l,r之间寻找第一个>=book *b的指标
 int lower_bound(book *, int, int);
@@ -38,45 +37,70 @@ int main()
     char tmpS[200];
     while (fgets(tmpS, 200, fr) != NULL)
     {
+        tmpS[strlen(tmpS) - 1] = '\0';
         indexL[n] = lib + n;
         convert(indexL[n], tmpS);
+        // fputs(tmpS, fw);
+        // fprint(fw, indexL[n]);
         ++n;
     }
     nLib = n;
     qsort(indexL, n, sizeof(book *), cmp);
+    convert(&lib[nLib++], "zzzzzfuck z z z");
+    indexL[n++] = &lib[nLib - 1];
+    //手动在末位添加“最大”的图书，以便lower_bound的边界条件
+    // for (int i = 0; i < n; ++i)
+    //     fprint(stdout, indexL[i]);
     int op, x;
-    book tmp;
-    while (~scanf("%d", &op) && op)
+    book tmpB;
+    while ((scanf("%d", &op) != EOF) && (op != 0))
     {
+        // printf("op=%d\n", op);
+        getchar();
         gets(tmpS);
+        // puts(tmpS);
         switch (op)
         {
         case 1:
-            convert(&tmp, tmpS);
-            lib[nLib++] = tmp;
-            insert(lower_bound(&tmp, 0, n - 1) - 1, &lib[nLib - 1]);
+        {
+            convert(&tmpB, tmpS);
+            lib[nLib++] = tmpB;
+            // printf("lower_bound:%d\n", lower_bound(&tmpB, 0, n - 1));
+            insert(lower_bound(&tmpB, 0, n - 1), &lib[nLib - 1]);
+            // printf("n=%d\n", n);
+            // for (int i = 0; i < n; ++i)
+            //     fprint(stdout, indexL[i]);
             break;
+        }
         case 2:
+        {
             x = 0;
-            while (~x)
+            while (~x && x < n)
             {
                 x = find(x, tmpS);
                 if (~x)
-                    print(indexL[x]);
+                    fprint(stdout, indexL[x]), ++x;
             }
             break;
+        }
         case 3:
+        {
             x = 0;
-            while (~x)
+            while (~x && x < n)
             {
                 x = find(x, tmpS);
+                // printf("x=%d\n", x);
+                // fprint(stdout, indexL[x]);
                 if (~x)
                     del(x);
             }
             break;
         }
+        }
+        // for (int i = 0; i < n; ++i)
+        //     fprint(stdout, indexL[i]);
     }
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < n - 1; ++i)
         fprint(fw, indexL[i]);
     fclose(fr);
     fclose(fw);
@@ -85,16 +109,18 @@ int main()
 
 void convert(book *b, char *s)
 {
+    memset(b, 0, sizeof(book));
     int len = strlen(s);
     char *p[4] = {b->name, b->author, b->press, b->date};
-    for (int i = 0, j = 0; i < len; ++i)
+    for (int i = 0, j = 0, k = 0; i < len; ++i)
     {
         if (s[i] == ' ')
         {
             ++j;
+            k = 0;
             continue;
         }
-        *p[j] = s[i];
+        *(p[j] + k++) = s[i];
     }
 }
 
@@ -103,20 +129,12 @@ int cmp(const void *a, const void *b)
     return strcmp((*(book **)a)->name, (*(book **)b)->name);
 }
 
-void print(const book *b)
-{
-    printf("%-50s ", b->name);
-    printf("%-20s ", b->author);
-    printf("%-30s ", b->press);
-    printf("%-10s\n", b->date);
-}
-
 void fprint(FILE *fp, const book *b)
 {
     fprintf(fp, "%-50s ", b->name);
     fprintf(fp, "%-20s ", b->author);
     fprintf(fp, "%-30s ", b->press);
-    fprintf(fp, "%-10s\n", b->date);
+    fprintf(fp, "%s\n", b->date);
 }
 
 //可能找不到，得改
@@ -138,7 +156,7 @@ void insert(int nxt, book *b)
 {
     for (int i = n - 1; i >= nxt; --i)
         indexL[i + 1] = indexL[i];
-    indexL[nxt - 1] = b;
+    indexL[nxt] = b;
     ++n;
 }
 
@@ -152,7 +170,7 @@ int find(int i, char *s)
 
 void del(int x)
 {
-    for (int i = x + 1; i < n; ++i)
-        indexL[i - 1] = indexL[i];
     --n;
+    for (int i = x; i < n; ++i)
+        indexL[i] = indexL[i + 1];
 }

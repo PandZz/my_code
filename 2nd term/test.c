@@ -8,9 +8,12 @@
 #define abs(a) (a > 0 ? a : -(a))
 #define F(i, l, r) for (int i = l; i <= r; ++i)
 typedef long long LL;
-int x[] = {0, 1, 2, 3, 4, 5}, *p1;
 int main()
 {
-    printf("%d\n", (p1 = x + 2, *(p1++)));
+    int x;
+    while (~scanf("%d", &x))
+    {
+        printf("~x=%d\n", ~x);
+    }
     return 0;
 }
