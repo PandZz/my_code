@@ -1,0 +1,39 @@
+//若至少有一对直线平行（不重合），那么三线一定不共点
+        if (a[0] * b[1] == a[1] * b[0] && a[0] * c[1] != a[1] * c[0])
+        {
+            puts("A nice test data ~");
+            continue;
+        }
+        if (a[0] * b[2] == a[2] * b[0] && a[0] * c[2] != a[2] * c[0])
+        {
+            puts("A nice test data ~");
+            continue;
+        }
+        if (a[2] * b[1] == a[1] * b[2] && a[2] * c[1] != a[1] * c[2])
+        {
+            puts("A nice test data ~");
+            continue;
+        }
+        //至少有一对直线重合，一定共点
+        if (a[0] * b[1] == a[1] * b[0] && a[0] * c[1] == a[1] * c[0])
+        {
+            puts("Could be a bug!");
+            continue;
+        }
+        if (a[0] * b[2] == a[2] * b[0] && a[0] * c[2] == a[2] * c[0])
+        {
+            puts("Could be a bug!");
+            continue;
+        }
+        if (a[2] * b[1] == a[1] * b[2] && a[2] * c[1] == a[1] * c[2])
+        {
+            puts("Could be a bug!");
+            continue;
+        }
+        //判断都有交点时，是否为同一个交点
+        flag = ((c[0] * a[1] - c[1] * a[0]) * (b[2] * a[1] - b[1] * a[2]) \
+        == (b[0] * a[1] - b[1] * a[0]) * (c[2] * a[1] - c[1] * a[2])) \
+        && ((c[0] * b[1] - c[1] * b[0]) * (a[2] * b[1] - a[1] * b[2]) \
+        == (a[0] * b[1] - a[1] * b[0]) * (c[2] * b[1] - c[1] * b[2]));
+        if (flag) puts("Could be a bug!");
+        else puts("A nice test data ~");

@@ -1,0 +1,18 @@
+Case 1:
+No subset relationship!
+The intersection of set A and set B is:Empty set
+Case 2:
+No subset relationship!
+The union of set A and set B is:{a,e,i,j,m,n,o,s,u}
+Case 3:
+Set B is the subset of set A!
+The complement of set A is:{b,n,p,r,s,t,u,y}
+Case 4:
+No subset relationship!
+The difference of set A and set B is:{a,b}
+Case 5:
+Set A is the subset of set B!
+The complement of the intersection of set A and set B is:{b,c,d,e,f,g,h,i,k,l,m,n,o,p,q,r,s,t,u,v,x,y,z}
+Case 6:
+No subset relationship!
+The complement of the union of set A and set B is:{b,g,h,q,r,s,t,u,v,x,y}
